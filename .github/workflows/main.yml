@@ -5,7 +5,7 @@ on:
     branches:
       - main
 env: 
-  AWS_S3_BUCKET: 'rafaellodi-upload-widget-web-static'
+  AWS_S3_BUCKET: 'rafaellodi-upload-widget-web-cdn'
   SOURCE_DIR: './dist'
 
 jobs:
