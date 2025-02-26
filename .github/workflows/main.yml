@@ -7,7 +7,6 @@ on:
 env: 
   AWS_S3_BUCKET: 'rafaellodi-upload-widget-web-cdn'
   SOURCE_DIR: './dist'
-  CLOUDFRONT_DISTRIBUTION_ID: 'ETAK8UV92XERW'
 
 jobs:
   deploy: 
@@ -50,9 +49,12 @@ jobs:
       - name: Sync files to S3
         id: sync-files-to-s3
         run: |
-          aws s3 sync ${{ env.SOURCE_DIR }} s3://${{ env.AWS_S3_BUCKET }}/ --delete
+          aws s3 sync ${{ env.SOURCE_DIR }} \
+            s3://${{ env.AWS_S3_BUCKET }}/ --delete
       
       - name: Invalidate CloudFront cache
         id: invalidate-cloudfront-cache
         run: |
-          aws cloudfront create-invalidation --distribution-id ${{ env.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+          aws cloudfront create-invalidation \ 
+            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --paths "/*"
